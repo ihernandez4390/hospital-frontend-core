@@ -1,0 +1,42 @@
+@model patient
+
+<form asp-controller="Patient" asp-action="PatientDetails" method="post">
+    <label asp-for="PatientID"></label>
+    <input asp-for="PatientID" />
+    <label asp-for="FName"></label>
+    <input asp-for="FName" />
+    <label asp-for="MInit"></label>
+    <input asp-for="MInit" />
+    <label asp-for="LName"></label>
+    <input asp-for="LName" />
+    <label asp-for="BirthDate"></label>
+    <input asp-for="BirthDate" />
+    <label asp-for="Sex"></label>
+    <input asp-for="Sex" />
+    <label asp-for="ContactNo"></label>
+    <input asp-for="ContactNo" />
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    DoctorID
+                </th>
+                <th>
+                    DoctorName
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < @Model.PatientDoctors.Count(); i++) {
+            <tr>
+                <td>
+                    @Model.PatientDoctors[i].EmployeeID
+                </td>
+                <td>
+                    @Model.PatientDoctors[i].Name
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</form>
