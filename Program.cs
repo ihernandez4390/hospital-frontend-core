@@ -3,7 +3,7 @@ using hospital_frontend_core.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add custom services to the container
-builder.Services.AddSingleton<hospital_backend_client>();
+builder.Services.AddTransient<hospital_backend_client>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -27,6 +27,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}");
+    pattern: "{controller=Home}/{action=Login}");
 
 app.Run();

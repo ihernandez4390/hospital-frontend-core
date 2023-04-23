@@ -11,6 +11,18 @@ public class hospital_backend_client {
         _client.BaseAddress = new Uri(hospital_backend_endpoint);
     }
 
+    public async Task<Boolean> Login(credential credential) {
+        HttpResponseMessage response = await _client.PostAsJsonAsync("api/login", credential);
+        
+        return response.IsSuccessStatusCode;
+    }
+
+    public async Task<Boolean> Logout() {
+        HttpResponseMessage response = await _client.PostAsync("api/login/logout", null);
+
+        return response.IsSuccessStatusCode;
+    }
+
     public async Task<IList<patient>> GetPatients() {
         var patients = new List<patient>();
 
@@ -35,6 +47,14 @@ public class hospital_backend_client {
             _patient.PatientDoctors = await GetPatientDoctors(_patient.PatientID);
 
         return _patient;       
+    }
+
+    public patient AddPatient(patient patient) {
+        throw new NotImplementedException();
+    }
+
+    public patient UpdatePatient(patient patient) {
+        throw new NotImplementedException();
     }
 
     public async Task<List<doctor>> GetDoctors() {
@@ -96,5 +116,107 @@ public class hospital_backend_client {
         }
             
         return patients;
+    }
+
+    public async Task<List<admission>> GetAdmissions() {
+        var admissions = new List<admission>();
+
+        HttpResponseMessage response = await _client.GetAsync($"api/patients/admissions");
+
+        if (response.IsSuccessStatusCode) {
+            var content = await response.Content.ReadFromJsonAsync<admission[]>();
+
+            if (content is not null) {
+                foreach (var admission in content)
+                    admissions.Add(admission);
+            }
+        }
+
+        return admissions;
+    }
+
+    public async Task<List<admission>> GetAdmissions(int patientId) {
+        var admissions = new List<admission>();
+
+        HttpResponseMessage response = await _client.GetAsync($"api/patients/{patientId}/admissions");
+
+        if (response.IsSuccessStatusCode) {
+            var content = await response.Content.ReadFromJsonAsync<admission[]>();
+
+            if (content is not null) {
+                foreach (var admission in content)
+                    admissions.Add(admission);
+            }
+        }
+
+        return admissions;
+    }
+
+    public async Task<List<appointment>> GetAppointments() {
+        var appointments = new List<appointment>();
+
+        HttpResponseMessage response = await _client.GetAsync($"api/patients/appointments");
+
+        if (response.IsSuccessStatusCode) {
+            var content = await response.Content.ReadFromJsonAsync<appointment[]>();
+
+            if (content is not null) {
+                foreach (var appointment in content)
+                    appointments.Add(appointment);
+            }
+        }
+
+        return appointments;
+    }
+
+    public async Task<List<appointment>> GetAppointments(int patientId) {
+        var appointments = new List<appointment>();
+
+        HttpResponseMessage response = await _client.GetAsync($"api/patients/{patientId}/appointments");
+
+        if (response.IsSuccessStatusCode) {
+            var content = await response.Content.ReadFromJsonAsync<appointment[]>();
+
+            if (content is not null) {
+                foreach (var appointment in content)
+                    appointments.Add(appointment);
+            }
+        }
+
+        return appointments;
+    }
+
+    public async Task<List<invoice>> GetInvoices() {
+        var invoices = new List<invoice>();
+
+        HttpResponseMessage response = await _client.GetAsync($"api/patients/invoices");
+
+        if (response.IsSuccessStatusCode) {
+            var content = await response.Content.ReadFromJsonAsync<invoice[]>();
+
+            if (content is not null) {
+                foreach (var invoice in content)
+                    invoices.Add(invoice);
+            }
+        }
+
+        return invoices;
+    }
+
+    public async Task<List<invoice>> GetInvoices(int patientId) {
+        var invoices = new List<invoice>();
+
+        HttpResponseMessage response = await _client.GetAsync($"api/patients/{patientId}/invoices");
+
+        if (response.IsSuccessStatusCode) {
+            var content = await response.Content.ReadFromJsonAsync<invoice[]>();
+
+            if (content is not null) {
+                foreach (var invoice in content)
+                    invoices.Add(invoice);
+            }
+        }
+
+        return invoices;
     }
 }

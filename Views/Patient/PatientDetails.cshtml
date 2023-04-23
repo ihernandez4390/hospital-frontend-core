@@ -1,42 +1,68 @@
 @model patient
 
-<form asp-controller="Patient" asp-action="PatientDetails" method="post">
-    <label asp-for="PatientID"></label>
-    <input asp-for="PatientID" />
-    <label asp-for="FName"></label>
-    <input asp-for="FName" />
-    <label asp-for="MInit"></label>
-    <input asp-for="MInit" />
-    <label asp-for="LName"></label>
-    <input asp-for="LName" />
-    <label asp-for="BirthDate"></label>
-    <input asp-for="BirthDate" />
-    <label asp-for="Sex"></label>
-    <input asp-for="Sex" />
-    <label asp-for="ContactNo"></label>
-    <input asp-for="ContactNo" />
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    DoctorID
-                </th>
-                <th>
-                    DoctorName
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (int i = 0; i < @Model.PatientDoctors.Count(); i++) {
-            <tr>
-                <td>
-                    @Model.PatientDoctors[i].EmployeeID
-                </td>
-                <td>
-                    @Model.PatientDoctors[i].Name
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
-</form>
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <h2>Patient Details - @Model.PatientID</h2>
+        </div>
+        <div class="btn-group" role="group">
+            <a asp-controller="Patient" asp-action="Appointments" type="button" class="btn btn-primary">Appointments</a>
+            <a asp-controller="Patient" asp-action="Admissions" type="button" class="btn btn-primary">Admissions</a>
+            <a asp-controller="Patient" asp-action="Invoices" type="button" class="btn btn-primary">Invoices</a>
+        </div>
+        <div class="row g-5">
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-primary">Primary Doctors</span>
+                    <span class="badge bg-primary rounder-pill">@Model.PatientDoctors.Count()</span>
+                </h4>
+                <ul class="list-group mb-3">
+                    @for (int i = 0; i < Model.PatientDoctors.Count(); i++) {
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">@Model.PatientDoctors[i].Name</h6>
+                                <small class="text-muted">@Model.PatientDoctors[i].Dept.dept_name</small>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">Patient details</h4>
+                <form asp-controller="Patient" asp-action="PatientDetails" method="post">
+                    <div class="row g-3">
+                        <div class="col-sm-5">
+                            <label asp-for="FName" class="form-label"></label>
+                            <input asp-for="FName" class="form-control" />
+                        </div>
+                        <div class="col-sm-2">
+                            <label asp-for="MInit" class="form-label"></label>
+                            <input asp-for="MInit" class="form-control" />
+                        </div>
+                        <div class="col-sm-5">
+                            <label asp-for="LName" class="form-label"></label>
+                            <input asp-for="LName" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-sm-5">
+                            <label asp-for="BirthDate" class="form-label"></label>
+                            <input asp-for="BirthDate" class="form-control" />
+                        </div>
+                        <div class="col-sm-2">
+                            <label asp-for="Sex" class="form-label"></label>
+                            <input asp-for="Sex" class="form-control" />
+                        </div>
+                        <div class="col-sm-5">
+                            <label asp-for="ContactNo" class="form-label"></label>
+                            <input asp-for="ContactNo" class="form-control" />
+                        </div>
+                    </div>
+                    <div id="hiddenFormItems" style="display: none;">
+                        <input asp-for="PatientID" readonly disabled />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>

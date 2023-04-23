@@ -33,9 +33,17 @@ public class PatientController : BaseController {
     #endregion
 
     #region admission
+    
+    public async Task<IActionResult> Admissions() {
+        var model = await base.client.GetAdmissions();
 
-    public IActionResult Admissions(int patientId) {
-        throw new NotImplementedException();
+        return View(model);
+    }
+
+    public async Task<IActionResult> Admissions(int patientId) {
+        var model = await base.client.GetAdmissions(patientId);
+
+        return View(model);
     }
 
     public IActionResult AdmissionDetails(int patientId, int id) {
