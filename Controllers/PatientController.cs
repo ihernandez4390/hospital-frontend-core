@@ -30,6 +30,12 @@ public class PatientController : BaseController {
         throw new NotImplementedException();
     }
 
+    public IActionResult AddPatient() {
+        var model = new patient();
+
+        return View(model);
+    }
+
     #endregion
 
     #region admission

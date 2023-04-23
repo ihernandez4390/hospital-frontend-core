@@ -1,7 +1,12 @@
+using System.ComponentModel;
+
 namespace hospital_frontend_core.Models;
 
 public class patient {
+    [DisplayName("PatientID")]
     public int PatientID { get; set; }
+    
+    [DisplayName("First Name")]
     public String FName { get; set; }
     public String MInit { get; set; }
     public String LName { get; set; }
