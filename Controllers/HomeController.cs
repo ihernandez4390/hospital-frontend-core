@@ -32,7 +32,7 @@ public class HomeController : BaseController
         var result = await base.client.Login(credential);
 
         if (result)
-            return RedirectToAction("Home");
+            return RedirectToAction("Index");
         else
             return RedirectToAction("Login");
     }
@@ -44,7 +44,7 @@ public class HomeController : BaseController
         return RedirectToAction("Login");
     }
 
-    public IActionResult Home()
+    public IActionResult Index()
     {
         return View();
     }
