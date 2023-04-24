@@ -32,14 +32,44 @@ public class PatientController : BaseController {
     }
 
     [HttpPost]
-    public IActionResult EditPatient(patient model) {
-        throw new NotImplementedException();
+    public async Task<IActionResult> EditPatient(int PatientID, string FName, string MInit, string LName, DateTime BirthDate, char Sex, string ContactNo)
+    {
+        var model = new patient() {
+            PatientID = PatientID,
+            FName = FName,
+            MInit = MInit,
+            LName = LName,
+            BirthDate = BirthDate,
+            Sex = Sex,
+            ContactNo = ContactNo,
+        };
+
+        var result = await base.client.UpdatePatient(model);
+        
+        return RedirectToAction("Patients");
     }
 
     public IActionResult AddPatient() {
         var model = new patient();
 
         return View(model);
+    }
+    [HttpPost]
+    public async Task<IActionResult> AddPatient(int PatientID, string FName, string MInit, string LName, DateTime BirthDate, char Sex, string ContactNo)
+    {
+        var model = new patient() {
+            PatientID = PatientID,
+            FName = FName,
+            MInit = MInit,
+            LName = LName,
+            BirthDate = BirthDate,
+            Sex = Sex,
+            ContactNo = ContactNo,
+        };
+
+        var result = await base.client.CreatePatient(model);
+        
+        return RedirectToAction("Patients");
     }
 
     public async Task<IActionResult> DeletePatient(int id) {
