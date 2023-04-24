@@ -23,6 +23,12 @@ public class hospital_backend_client {
         return response.IsSuccessStatusCode;
     }
 
+    public async Task<Boolean> CreatePatient(patient model) {
+        HttpResponseMessage response = await _client.PostAsJsonAsync("api/patients/create", model);
+
+        return response.IsSuccessStatusCode;
+    }
+
     public async Task<IList<patient>> GetPatients() {
         var patients = new List<patient>();
 
