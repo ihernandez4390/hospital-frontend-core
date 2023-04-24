@@ -103,8 +103,10 @@ public class PatientController : BaseController {
 
     #region appointment
 
-    public IActionResult Appointments() {
-        throw new NotImplementedException();
+    public async Task<IActionResult> Appointments() {
+        var model = await base.client.GetAppointments();
+
+        return View(model);
     }
 
     public IActionResult AppointmentDetails(int id) {

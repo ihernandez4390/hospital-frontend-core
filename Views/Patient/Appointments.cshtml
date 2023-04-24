@@ -1,0 +1,53 @@
+@model List<appointment>
+
+
+@{
+    ViewData["Title"] = "Appointments";
+}
+
+<div class="container">
+    <main>
+        <div class="row py-5">
+            <div class="col-sm-11">
+                <h2>Appointments</h2>
+            </div>
+            <div class="col-sm-1">
+                <div class="btn-group" role="group">
+                    <a asp-controller="Patient" asp-action="AdmitPatient" type="button" class="btn btn-primary">New Appointment</a>
+                </div>
+            </div>
+        </div>
+        <div class="row table-responsive">
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>
+                            Appointment ID
+                        </th>
+                        <th>
+                            Patient Name
+                        </th>
+                        <th>
+                            Appointment Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count(); i++) {
+                        <tr>
+                            <td>
+                                <a asp-controller="Patient" asp-action="AdmissionDetails" asp-route-id="@Model[i].HistoryID">@Model[i].HistoryID</a>
+                            </td>
+                            <td>
+                                @Model[i].Patient.Name
+                            </td>
+                            <td>
+                                @Model[i].ApptDate.ToShortDateString()
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
