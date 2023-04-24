@@ -20,13 +20,13 @@ public class PatientController : BaseController {
     }
 
     public async Task<IActionResult> PatientDetails(int id) {
-        var model = await base.client.GetPatient(id);
+        var model = await base.client.GetPatientWithDetails(id);
 
         return View(model);
     }
 
     public async Task<IActionResult> EditPatient(int id) {
-        var model = await base.client.GetPatient(id);
+        var model = await base.client.GetPatientWithDetails(id);
 
         return View(model);
     }
@@ -55,7 +55,7 @@ public class PatientController : BaseController {
 
     public async Task<IActionResult> DeletePatient(int id) 
     {
-        var model = await base.client.GetPatient(id);
+        var model = await base.client.GetPatientWithDetails(id);
 
         return View(model);
     }
@@ -73,35 +73,41 @@ public class PatientController : BaseController {
     #region admission
     
     public async Task<IActionResult> Admissions() {
-        var model = await base.client.GetAdmissions();
+        var model = await base.client.GetCurrentAdmissions();
 
         return View(model);
     }
 
-    public async Task<IActionResult> Admissions(int patientId) {
-        var model = await base.client.GetAdmissions(patientId);
+    public async Task<IActionResult> AdmissionDetails(int id) {
+        var model = await base.client.GetAdmission(id);
 
         return View(model);
     }
 
-    public IActionResult AdmissionDetails(int patientId, int id) {
-        throw new NotImplementedException();
+    public async Task<IActionResult> DischargePatient(int id) {
+        var model = await base.client.GetAdmission(id);
+
+        return View(model);
     }
 
     [HttpPost]
-    public IActionResult AdmissionDetails(admission model) {
-        throw new NotImplementedException();
+    public async Task<IActionResult> DischargePatient(admission model) {
+        model.DischargeDate = DateTime.Now;
+        
+        var result = await base.client.Discharge(model);
+
+        return RedirectToAction("Admissions");
     }
 
     #endregion
 
     #region appointment
 
-    public IActionResult Appointments(int patientId) {
+    public IActionResult Appointments() {
         throw new NotImplementedException();
     }
 
-    public IActionResult AppointmentDetails(int patientId, int id) {
+    public IActionResult AppointmentDetails(int id) {
         throw new NotImplementedException();
     }
 
@@ -114,11 +120,11 @@ public class PatientController : BaseController {
 
     #region invoice
 
-    public IActionResult Invoices(int patientId) {
+    public IActionResult Invoices() {
         throw new NotImplementedException();
     }
 
-    public IActionResult InvoiceDetails(int patientId, int id) {
+    public IActionResult InvoiceDetails(int id) {
         throw new NotImplementedException();
     }
 
@@ -131,11 +137,11 @@ public class PatientController : BaseController {
 
     #region payment
 
-    public IActionResult Payments(int patientId) {
+    public IActionResult Payments() {
         throw new NotImplementedException();
     }
 
-    public IActionResult PaymentDetails(int patientId, int id) {
+    public IActionResult PaymentDetails(int id) {
         throw new NotImplementedException();
     }
 

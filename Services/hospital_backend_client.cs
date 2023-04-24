@@ -61,13 +61,18 @@ public class hospital_backend_client {
     public async Task<patient?> GetPatient(int id) {
         var _patient = (await GetPatients()).SingleOrDefault(p => p.PatientID == id);
 
+        return _patient;
+    }
+
+    public async Task<patient?> GetPatientWithDetails(int id) {
+        var _patient = await GetPatient(id);
+
         if (_patient is not null) {
             _patient.PatientDoctors = await GetPatientDoctors(_patient.PatientID);
             _patient.Admissions = await GetAdmissions(_patient.PatientID);
             _patient.Appointments = await GetAppointments(_patient.PatientID);
         }
-            
-
+        
         return _patient;       
     }
 
@@ -135,14 +140,43 @@ public class hospital_backend_client {
     public async Task<List<admission>> GetAdmissions() {
         var admissions = new List<admission>();
 
-        HttpResponseMessage response = await _client.GetAsync($"api/patients/admissions");
+        HttpResponseMessage response = await _client.GetAsync("api/history/admissions");
 
         if (response.IsSuccessStatusCode) {
             var content = await response.Content.ReadFromJsonAsync<admission[]>();
 
             if (content is not null) {
-                foreach (var admission in content)
-                    admissions.Add(admission);
+                foreach (var admission in content) {
+                    var patient = await GetPatient(admission.PatientID);
+
+                    if (patient is not null) {
+                        admission.Patient = patient;
+                        admissions.Add(admission);
+                    }
+                }
+            }
+        }
+
+        return admissions;
+    }
+
+    public async Task<List<admission>> GetCurrentAdmissions() {
+        var admissions = new List<admission>();
+
+        HttpResponseMessage response = await _client.GetAsync("api/history/currentadmissions");
+
+        if (response.IsSuccessStatusCode) {
+            var content = await response.Content.ReadFromJsonAsync<admission[]>();
+
+            if (content is not null) {
+                foreach (var admission in content) {
+                    var patient = await GetPatient(admission.PatientID);
+
+                    if (patient is not null) {
+                        admission.Patient = patient;
+                        admissions.Add(admission);
+                    }
+                }
             }
         }
 
@@ -166,17 +200,36 @@ public class hospital_backend_client {
         return admissions;
     }
 
+    public async Task<admission?> GetAdmission(int id) {
+        var _admission = (await GetAdmissions()).SingleOrDefault(a => a.HistoryID == id);
+
+        return _admission;
+    }
+
+    public async Task<Boolean> Discharge(admission model) {
+        HttpResponseMessage response = await _client.PostAsJsonAsync("api/history/discharge", model);
+
+        return response.IsSuccessStatusCode;
+    }
+
     public async Task<List<appointment>> GetAppointments() {
         var appointments = new List<appointment>();
 
-        HttpResponseMessage response = await _client.GetAsync($"api/patients/appointments");
+        HttpResponseMessage response = await _client.GetAsync($"api/history/appointments");
 
         if (response.IsSuccessStatusCode) {
             var content = await response.Content.ReadFromJsonAsync<appointment[]>();
 
             if (content is not null) {
                 foreach (var appointment in content)
-                    appointments.Add(appointment);
+                {
+                    var patient = await GetPatient(appointment.PatientID);
+
+                    if (patient is not null) {
+                        appointment.Patient = patient;
+                        appointments.Add(appointment);
+                    }
+                }
             }
         }
 

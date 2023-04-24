@@ -1,0 +1,57 @@
+@model admission
+
+@{
+    ViewData["Title"] = "Admission Details";
+}
+
+<div class="container">
+    <div class="row py-5">
+            <div class="col-sm-10">
+                <h2>Admission - @Model.HistoryID</h2>
+            </div>
+            <div class="col-sm-2">
+                <div class="btn-group" role="group">
+                    <a asp-controller="Patient" asp-action="Admissions" type="button" class="btn btn-secondary">Cancel</a>
+                    <a asp-controller="Patient" asp-action="DischargePatient" asp-route-id="@Model.HistoryID" type="button" class="btn btn-primary">Discharge</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="mb-3">Admission Details</h4>
+                <form>
+                    <div class="input-group mb-3">
+                        <div class="col-sm-5">
+                            <label asp-for="Patient.FName" class="form-label"></label>
+                            <input asp-for="Patient.FName" class="form-control" readonly/>
+                        </div>
+                        <div class="col-sm-2">
+                            <label asp-for="Patient.MInit" class="form-label"></label>
+                            <input asp-for="Patient.MInit" class="form-control" readonly/>
+                        </div>
+                        <div class="col-sm-5">
+                            <label asp-for="Patient.LName" class="form-label"></label>
+                            <input asp-for="Patient.LName" class="form-control" readonly/>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="col-sm-5">
+                            <label asp-for="AdmissionDate" class="form-label"></label>
+                            <input asp-for="AdmissionDate" class="form-control" readonly/>
+                        </div>
+                        <div class="col-sm-5">
+                            <label asp-for="DischargeDate" class="form-label"></label>
+                            <input asp-for="DischargeDate" class="form-control" readonly/>
+                        </div>
+                        <div class="col-sm-2">
+                            <label asp-for="AssignedBed" class="form-label"></label>
+                            <input asp-for="AssignedBed" class="form-control" readonly/>
+                        </div>
+                    </div>
+                    <div id="hiddenFormItems" style="display: none;">
+                        <input asp-for="HistoryID" />
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>

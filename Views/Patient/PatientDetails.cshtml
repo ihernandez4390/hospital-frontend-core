@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col">
                 <h4 class="mb-3">Patient Details</h4>
-                <form asp-controller="Patient" asp-action="PatientDetails" method="post">
+                <form>
                     <div class="input-group mb-3">
                         <div class="col-sm-5">
                             <label asp-for="FName" class="form-label"></label>
@@ -53,8 +53,6 @@
                     <div id="hiddenFormItems" style="display: none;">
                         <input asp-for="PatientID" />
                     </div>
-                    <br />
-                    <button class="w-100 btn btn-lg btn-primary" type="submit">Update Patient</button>
                 </form>
             </div>
         </div>
