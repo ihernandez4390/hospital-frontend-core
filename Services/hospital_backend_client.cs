@@ -29,6 +29,12 @@ public class hospital_backend_client {
         return response.IsSuccessStatusCode;
     }
 
+    public async Task<Boolean> UpdatePatient(patient model) {
+        HttpResponseMessage response = await _client.PostAsJsonAsync("api/patients/update", model);
+
+        return response.IsSuccessStatusCode;
+    }
+
     public async Task<IList<patient>> GetPatients() {
         var patients = new List<patient>();
 
@@ -53,14 +59,6 @@ public class hospital_backend_client {
             _patient.PatientDoctors = await GetPatientDoctors(_patient.PatientID);
 
         return _patient;       
-    }
-
-    public patient AddPatient(patient patient) {
-        throw new NotImplementedException();
-    }
-
-    public patient UpdatePatient(patient patient) {
-        throw new NotImplementedException();
     }
 
     public async Task<List<doctor>> GetDoctors() {
