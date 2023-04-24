@@ -1,67 +1,152 @@
 @model patient
 
+@{
+    ViewData["Title"] = "Patient Details";
+}
+
 <div class="container">
     <main>
-        <div class="py-5 text-center">
-            <h2>Patient Details - @Model.PatientID</h2>
-        </div>
-        <div class="btn-group" role="group">
-            <a asp-controller="Patient" asp-action="Appointments" type="button" class="btn btn-primary">Appointments</a>
-            <a asp-controller="Patient" asp-action="Admissions" type="button" class="btn btn-primary">Admissions</a>
-            <a asp-controller="Patient" asp-action="Invoices" type="button" class="btn btn-primary">Invoices</a>
-        </div>
-        <div class="row g-5">
-            <div class="col-md-5 col-lg-4 order-md-last">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">Primary Doctors</span>
-                    <span class="badge bg-primary rounder-pill">@Model.PatientDoctors.Count()</span>
-                </h4>
-                <ul class="list-group mb-3">
-                    @for (int i = 0; i < Model.PatientDoctors.Count(); i++) {
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">@Model.PatientDoctors[i].Name</h6>
-                                <small class="text-muted">@Model.PatientDoctors[i].Dept.dept_name</small>
-                            </div>
-                        </li>
-                    }
-                </ul>
+        <div class="row py-5">
+            <div class="col-sm-9">
+                <h2>Patient - @Model.Name</h2>
             </div>
-            <div class="col-md-7 col-lg-8">
-                <h4 class="mb-3">Patient details</h4>
+            <div class="col-sm-3">
+                <div class="btn-group" role="group">
+                    <a asp-controller="Patient" asp-action="Patients" type="button" class="btn btn-secondary">Cancel</a>
+                    <a asp-controller="Patient" asp-action="DeletePatient" type="button" class="btn btn-danger">Delete</a>
+                    <a asp-controller="Patient" asp-action="EditPatient" type="button" class="btn btn-primary">Edit</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="mb-3">Patient Details</h4>
                 <form asp-controller="Patient" asp-action="PatientDetails" method="post">
-                    <div class="row g-3">
+                    <div class="input-group mb-3">
                         <div class="col-sm-5">
                             <label asp-for="FName" class="form-label"></label>
-                            <input asp-for="FName" class="form-control" />
+                            <input asp-for="FName" class="form-control" readonly/>
                         </div>
                         <div class="col-sm-2">
                             <label asp-for="MInit" class="form-label"></label>
-                            <input asp-for="MInit" class="form-control" />
+                            <input asp-for="MInit" class="form-control" readonly/>
                         </div>
                         <div class="col-sm-5">
                             <label asp-for="LName" class="form-label"></label>
-                            <input asp-for="LName" class="form-control" />
+                            <input asp-for="LName" class="form-control" readonly/>
                         </div>
                     </div>
-                    <div class="row g-3">
+                    <div class="input-group mb-3">
                         <div class="col-sm-5">
                             <label asp-for="BirthDate" class="form-label"></label>
-                            <input asp-for="BirthDate" class="form-control" />
+                            <input asp-for="BirthDate" class="form-control" readonly/>
                         </div>
                         <div class="col-sm-2">
                             <label asp-for="Sex" class="form-label"></label>
-                            <input asp-for="Sex" class="form-control" />
+                            <input asp-for="Sex" class="form-control" readonly/>
                         </div>
                         <div class="col-sm-5">
                             <label asp-for="ContactNo" class="form-label"></label>
-                            <input asp-for="ContactNo" class="form-control" />
+                            <input asp-for="ContactNo" class="form-control" readonly/>
                         </div>
                     </div>
                     <div id="hiddenFormItems" style="display: none;">
                         <input asp-for="PatientID" readonly disabled />
                     </div>
                 </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="mb-3">Primary Doctors</h4>
+                <ul class="list-group mb-3">
+                    @for (int i = 0; i < Model.PatientDoctors.Count(); i++) {
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">@Model.PatientDoctors[i].Name</h6>
+                            <small class="text-muted">@Model.PatientDoctors[i].Dept.dept_name</small>
+                        </div>
+                    </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div id="appointmentsAccordion" class="accordion">
+                <div class="accordian-item">
+                    <h4 id="pastAppointmentsHeader" class="accordian-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pastAppointments" aria-expanded="true" aria-controls="pastAppointments">
+                            Past Appointments
+                        </button>
+                    </h4>
+                    <div id="pastAppointments" class="accordion-collapse collapse" aria-labelledby="pastAppointmentsHeader" data-bs-parent="#appointmentsAccordion">
+                        <div class="accordion-body">
+                            <div class="row table-responsive">
+                                <table class="table table-striped">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>
+                                                Id
+                                            </th>
+                                            <th>
+                                                Appointment Date
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.Past_Appointments.Count(); i++) {
+                                            <tr>
+                                                <td>
+                                                    @Model.Past_Appointments[i].HistoryID
+                                                </td>
+                                                <td>
+                                                    @Model.Past_Appointments[i].ApptDate
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordian-item">
+                    <h4 id="futureAppointmentsHeader" class="accordian-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#futureAppointments" aria-expanded="true" aria-controls="futureAppointments">
+                            Future Appointments
+                        </button>
+                    </h4>
+                    <div id="futureAppointments" class="accordion-collapse collapse" aria-labelledby="futureAppointmentsHeader" data-bs-parent="#appointmentsAccordion">
+                        <div class="accordion-body">
+                            <div class="row table-responsive">
+                                <table class="table table-striped">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>
+                                                Id
+                                            </th>
+                                            <th>
+                                                Appointment Date
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.Future_Appointments.Count(); i++) {
+                                            <tr>
+                                                <td>
+                                                    @Model.Future_Appointments[i].HistoryID
+                                                </td>
+                                                <td>
+                                                    @Model.Future_Appointments[i].ApptDate
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

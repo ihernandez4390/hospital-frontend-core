@@ -21,6 +21,13 @@ public class HomeController : BaseController
         return View(model);
     }
 
+    public IActionResult LoginError()
+    {
+        var model = new credential();
+
+        return View(model);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Login(string username, string password)
     {
@@ -34,7 +41,7 @@ public class HomeController : BaseController
         if (result)
             return RedirectToAction("Index");
         else
-            return RedirectToAction("Login");
+            return RedirectToAction("LoginError");
     }
 
     public async Task<IActionResult> Logout() 

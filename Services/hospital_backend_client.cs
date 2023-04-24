@@ -43,8 +43,12 @@ public class hospital_backend_client {
     public async Task<patient?> GetPatient(int id) {
         var _patient = (await GetPatients()).SingleOrDefault(p => p.PatientID == id);
 
-        if (_patient is not null)
+        if (_patient is not null) {
             _patient.PatientDoctors = await GetPatientDoctors(_patient.PatientID);
+            _patient.Admissions = await GetAdmissions(_patient.PatientID);
+            _patient.Appointments = await GetAppointments(_patient.PatientID);
+        }
+            
 
         return _patient;       
     }
@@ -54,6 +58,10 @@ public class hospital_backend_client {
     }
 
     public patient UpdatePatient(patient patient) {
+        throw new NotImplementedException();
+    }
+
+    public void DeletePatient(int id) {
         throw new NotImplementedException();
     }
 

@@ -1,12 +1,10 @@
 namespace hospital_frontend_core.Models;
 
 public class admission : history {
-    public DateTime admission_date { get; set; }
-    public DateTime discharge_date { get; set; }
-    public int bed_no => bed.bed_no;
-    public room_bed bed { get; set; }
+    public DateTime AdmissionDate { get; set; }
+    public DateTime DischargeDate { get; set; }
+    public int AssignedBed { get; set; }
 
     public admission() {
-        bed = new();
     }
 }

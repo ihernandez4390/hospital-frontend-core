@@ -25,8 +25,14 @@ public class PatientController : BaseController {
         return View(model);
     }
 
+    public async Task<IActionResult> EditPatient(int id) {
+        var model = await base.client.GetPatient(id);
+
+        return View(model);
+    }
+
     [HttpPost]
-    public IActionResult PatientDetails(patient model) {
+    public IActionResult EditPatient(patient model) {
         throw new NotImplementedException();
     }
 
@@ -34,6 +40,19 @@ public class PatientController : BaseController {
         var model = new patient();
 
         return View(model);
+    }
+
+    public async Task<IActionResult> DeletePatient(int id) {
+        var model = await base.client.GetPatient(id);
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public IActionResult DeletePatient(patient model) {
+        base.client.DeletePatient(model.PatientID);
+
+        return RedirectToAction("Patients");
     }
 
     #endregion

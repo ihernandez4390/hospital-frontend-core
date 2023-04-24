@@ -3,7 +3,29 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <a asp-controller="Patient" asp-action="Patients">Patients</a>
-    <a asp-controller="Patient" asp-action="Add Patient">Add Patient</a>
+    <h1 class="display-4">Welcome to the hospital front end</h1>
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <a asp-controller="Patient" asp-action="Patients">
+                <div class="card">
+                    <div class="card-body text-primary">
+                        <p class="card-text">
+                            View Patients
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <a asp-controller="Patient" asp-action="Add Patient">
+                <div class="card">
+                    <div class="card-body text-primary">
+                        <p class="card-text">
+                            Add Patient
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
 </div>

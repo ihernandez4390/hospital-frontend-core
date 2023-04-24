@@ -1,0 +1,32 @@
+@model patient
+
+@{
+    ViewData["Title"] = "Delete Patient";
+}
+
+<div class="container">
+    <main>
+        <div class="row py-5">
+            <div class="col-sm-9">
+                <h2>Delete Patient - @Model.Name</h2>
+            </div>
+            <div class="col-sm-3">
+                <div class="btn-group" role="group">
+                    <a asp-controller="Patient" asp-action="PatientDetails" asp-route-id="@Model.PatientID" type="button" class="btn btn-secondary">Cancel</a>
+                    <a id="deleteAnchor" type="button" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <form asp-controller="Patient" asp-action="DeletePatient" method="post">
+                <div class="alert alert-warning" role="alert">
+                    <h2>You are about to delete patient @Model.Name. Are you sure?</h2>
+                </div>
+                <div id="hiddenFormItems" style="display: none;">
+                    <input asp-for="PatientID" readonly disabled />
+                    <input id="deleteButton" type="submit" name="submit" value="Submit" />
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
