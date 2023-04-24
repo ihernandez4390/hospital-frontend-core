@@ -13,8 +13,8 @@
             <div class="col-sm-3">
                 <div class="btn-group" role="group">
                     <a asp-controller="Patient" asp-action="Patients" type="button" class="btn btn-secondary">Cancel</a>
-                    <a asp-controller="Patient" asp-action="DeletePatient" type="button" class="btn btn-danger">Delete</a>
-                    <a asp-controller="Patient" asp-action="EditPatient" type="button" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Patient" asp-action="DeletePatient" asp-route-id="@Model.PatientID" type="button" class="btn btn-danger">Delete</a>
+                    <a asp-controller="Patient" asp-action="EditPatient" asp-route-id="@Model.PatientID" type="button" class="btn btn-primary">Edit</a>
                 </div>
             </div>
         </div>

@@ -50,7 +50,8 @@
                         </div>
                     </div>
                     <div id="hiddenFormItems" style="display: none;">
-                        <input asp-for="PatientID" readonly disabled />
+                        <label asp-for="PatientID" class="form-label"></label>
+                        <input asp-for="PatientID" class="form-control" readonly />
                         <input id="submitButton" type="submit" name="submit" value="Submit" />
                     </div>
                 </form>

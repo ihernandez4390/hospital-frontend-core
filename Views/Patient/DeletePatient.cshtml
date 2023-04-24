@@ -23,10 +23,14 @@
                     <h2>You are about to delete patient @Model.Name. Are you sure?</h2>
                 </div>
                 <div id="hiddenFormItems" style="display: none;">
-                    <input asp-for="PatientID" readonly disabled />
+                    <label asp-for="PatientID" class="form-label"></label>
+                    <input asp-for="PatientID" class="form-control" readonly />
                     <input id="deleteButton" type="submit" name="submit" value="Submit" />
                 </div>
             </form>
         </div>
     </main>
 </div>
+@section Scripts {
+    <script src="~/js/DeletePatient.js" asp-append-version="true"></script>
+}

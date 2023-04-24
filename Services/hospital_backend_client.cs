@@ -35,6 +35,12 @@ public class hospital_backend_client {
         return response.IsSuccessStatusCode;
     }
 
+    public async Task<Boolean> DeletePatient(patient model) {
+        HttpResponseMessage response = await _client.PostAsJsonAsync("api/patients/delete", model);
+
+        return response.IsSuccessStatusCode;
+    }
+
     public async Task<IList<patient>> GetPatients() {
         var patients = new List<patient>();
 
@@ -63,10 +69,6 @@ public class hospital_backend_client {
             
 
         return _patient;       
-    }
-
-    public void DeletePatient(int id) {
-        throw new NotImplementedException();
     }
 
     public async Task<List<doctor>> GetDoctors() {
