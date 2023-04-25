@@ -1,0 +1,47 @@
+@model admissionViewModel
+
+@{
+    ViewData["Title"] = "Create Admission";
+}
+
+<div class="container">
+    <main>
+        <div class="row py-5">
+            <div class="col-sm-9">
+                <h2>Create Admission</h2>
+            </div>
+            <div class="col-sm-3">
+                <div class="btn-group" role="group">
+                    <a asp-controller="Patient" asp-action="Admissions" type="button" class="btn btn-secondary">Cancel</a>
+                    <a id="addAnchor" type="button" class="btn btn-primary">Create</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="mb-3">Admission Details</h4>
+                <form asp-controller="Patient" asp-action="CreateAdmission" method="post">
+                    <div class="input-group mb-3">
+                        <div class="col-sm-10">
+                            <label asp-for="SelectedPatientId" class="form-label"></label>
+                            <select asp-for="SelectedPatientId" asp-items="@Model.SelectAvailablePatients"></select>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="col-sm-10">
+                            <label asp-for="SelectedBedId" class="form-label"></label>
+                            <select asp-for="SelectedBedId" asp-items="@Model.SelectAvailableBeds"></select>
+                        </div>
+                    </div>
+                    <div id="hiddenFormItems" style="display: none;">
+                        <input id="addButton" type="submit" name="submit" value="Submit" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+@section Scripts {
+    <script src="~/js/CreateAdmission.js" asp-append-version="true"></script>
+}

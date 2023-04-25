@@ -1,11 +1,11 @@
 namespace hospital_frontend_core.Models;
 
 public class room {
-    public int room_no { get; set; }
-    public int dept_id => dept.dept_id;
-    public department dept { get; set; }
+    public int RoomNo { get; set; }
+    public int DeptID { get; set; }
+    public department Dept { get; set; }
 
     public room() {
-        dept = new();
+        Dept = new();
     }
 }

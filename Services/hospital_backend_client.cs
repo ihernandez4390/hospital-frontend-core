@@ -206,6 +206,12 @@ public class hospital_backend_client {
         return _admission;
     }
 
+    public async Task<Boolean> Admit(admission model) {
+        HttpResponseMessage response = await _client.PostAsJsonAsync("api/history/admit", model);
+
+        return response.IsSuccessStatusCode;
+    }
+
     public async Task<Boolean> Discharge(admission model) {
         HttpResponseMessage response = await _client.PostAsJsonAsync("api/history/discharge", model);
 
@@ -285,5 +291,103 @@ public class hospital_backend_client {
         }
 
         return invoices;
+    }
+
+    public async Task<List<department>> GetDepartments() {
+        var departments = new List<department>();
+
+        HttpResponseMessage response = await _client.GetAsync($"api/departments/");
+
+        if (response.IsSuccessStatusCode) {
+            var content = await response.Content.ReadFromJsonAsync<department[]>();
+
+            if (content is not null) {
+                foreach (var dept in content)
+                    departments.Add(dept);
+            }
+        }
+
+        return departments;
+    }
+
+    public async Task<department?> GetDepartment(int id) {
+        var _dept = (await GetDepartments()).SingleOrDefault(d => d.DeptID == id);
+
+        return _dept;
+    }
+
+    public async Task<List<room>> GetRooms() {
+        var rooms = new List<room>();
+
+        HttpResponseMessage response = await _client.GetAsync($"api/departments/rooms");
+
+        if (response.IsSuccessStatusCode) {
+            var content = await response.Content.ReadFromJsonAsync<room[]>();
+
+            if (content is not null) {
+                foreach (var room in content) {
+                    var dept = await GetDepartment(room.DeptID);
+
+                    if (dept is not null) {
+                        room.Dept = dept;
+                        rooms.Add(room);
+                    }
+                }
+            }
+        }
+
+        return rooms;
+    }
+
+    public async Task<room?> GetRoom(int id) {
+        var _room = (await GetRooms()).SingleOrDefault(r => r.RoomNo == id);
+
+        return _room;
+    }
+
+    public async Task<List<room_bed>> GetBeds() {
+        var beds = new List<room_bed>();
+
+        HttpResponseMessage response = await _client.GetAsync("api/departments/beds");
+
+        if (response.IsSuccessStatusCode) {
+            var content = await response.Content.ReadFromJsonAsync<room_bed[]>();
+
+            if (content is not null) {
+                foreach (var bed in content) {
+                    var room = await GetRoom(bed.RoomNo);
+
+                    if (room is not null) {
+                        bed.Room = room;
+                        beds.Add(bed);
+                    }
+                }
+            }
+        }
+
+        return beds;
+    }
+
+    public async Task<List<room_bed>> GetAvailableBeds() {
+        var beds = new List<room_bed>();
+
+        HttpResponseMessage response = await _client.GetAsync("api/departments/availablebeds");
+
+        if (response.IsSuccessStatusCode) {
+            var content = await response.Content.ReadFromJsonAsync<room_bed[]>();
+
+            if (content is not null) {
+                foreach (var bed in content) {
+                    var room = await GetRoom(bed.RoomNo);
+
+                    if (room is not null) {
+                        bed.Room = room;
+                        beds.Add(bed);
+                    }
+                }
+            }
+        }
+
+        return beds;
     }
 }

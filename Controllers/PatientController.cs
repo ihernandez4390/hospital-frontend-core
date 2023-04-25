@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using hospital_frontend_core.Models;
 using hospital_frontend_core.Services;
+using hospital_frontend_core.ViewModels;
 
 namespace hospital_frontend_core.Controllers;
 
@@ -84,6 +85,31 @@ public class PatientController : BaseController {
         return View(model);
     }
 
+    public async Task<IActionResult> CreateAdmission() {
+        var model = new admissionViewModel();
+
+        var admittedPatients = (await base.client.GetCurrentAdmissions()).Select(a => a.Patient).ToList();
+
+        model.AvailablePatients = (await base.client.GetPatients()).Where( p => !admittedPatients.Any(a => a.PatientID == p.PatientID)).ToList();
+        model.AvailableBeds = await base.client.GetAvailableBeds();
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateAdmission(admissionViewModel model) {
+        var admission = new admission() {
+            CreationDate = DateTime.Now,
+            AdmissionDate = DateTime.Now,
+            PatientID = int.Parse(model.SelectedPatientId),
+            AssignedBed = int.Parse(model.SelectedBedId)
+        };
+
+        var result = await base.client.Admit(admission);
+
+        return RedirectToAction("Admissions");
+    }
+
     public async Task<IActionResult> DischargePatient(int id) {
         var model = await base.client.GetAdmission(id);
 
@@ -113,8 +139,32 @@ public class PatientController : BaseController {
         throw new NotImplementedException();
     }
 
+    public IActionResult CreateAppointment() {
+        var model = new appointment();
+
+        return View(model);
+    }
+
     [HttpPost]
-    public IActionResult AppointmentDetails(appointment model) {
+    public IActionResult CreateAppointment(appointment model) {
+        throw new NotImplementedException();
+    }
+
+    public IActionResult RescheduleAppointment(int id) {
+        throw new NotImplementedException();
+    }
+
+    [HttpPost]
+    public IActionResult RescheduleAppointment(appointment model) {
+        throw new NotImplementedException();
+    }
+
+    public IActionResult CancelAppointment(int id) {
+        throw new NotImplementedException();
+    }
+
+    [HttpPost]
+    public IActionResult CancelAppointment(appointment model) {
         throw new NotImplementedException();
     }
 

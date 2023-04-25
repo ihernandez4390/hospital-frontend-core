@@ -13,7 +13,7 @@
             </div>
             <div class="col-sm-1">
                 <div class="btn-group" role="group">
-                    <a asp-controller="Patient" asp-action="AdmitPatient" type="button" class="btn btn-primary">New Appointment</a>
+                    <a asp-controller="Patient" asp-action="CreateAppointment" type="button" class="btn btn-primary">New Appointment</a>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                     @for (int i = 0; i < Model.Count(); i++) {
                         <tr>
                             <td>
-                                <a asp-controller="Patient" asp-action="AdmissionDetails" asp-route-id="@Model[i].HistoryID">@Model[i].HistoryID</a>
+                                <a asp-controller="Patient" asp-action="AppointmentDetails" asp-route-id="@Model[i].HistoryID">@Model[i].HistoryID</a>
                             </td>
                             <td>
                                 @Model[i].Patient.Name
